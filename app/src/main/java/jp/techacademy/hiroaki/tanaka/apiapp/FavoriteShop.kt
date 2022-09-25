@@ -1,6 +1,7 @@
 package jp.techacademy.hiroaki.tanaka.apiapp
 
     import io.realm.Realm
+    import io.realm.RealmConfiguration
     import io.realm.RealmObject
     import io.realm.annotations.PrimaryKey
 
@@ -11,9 +12,24 @@ package jp.techacademy.hiroaki.tanaka.apiapp
         var name: String = ""
         var url: String = ""
 
+
+
         companion object {
+
+            // ★ Realmsデータベースに関わる不具合対応　田中　ここから
+            var realmConfiguration =
+                RealmConfiguration.Builder()
+                    .deleteRealmIfMigrationNeeded()
+                    .allowWritesOnUiThread(true)
+                    .allowQueriesOnUiThread(true)
+                    .build()
+
+            // ★ ここまで
+
             fun findAll(): List<FavoriteShop> = // お気に入りのShopを全件取得
-                Realm.getDefaultInstance().use { realm ->
+                // ★ Realmsデータベースに関わる不具合対応　田中
+                // Realm.getDefaultInstance().use { realm ->
+                Realm.getInstance(realmConfiguration).use { realm ->
                     realm.where(FavoriteShop::class.java)
                         .findAll().let {
                             realm.copyFromRealm(it)
@@ -21,7 +37,9 @@ package jp.techacademy.hiroaki.tanaka.apiapp
                 }
 
             fun findBy(id: String): FavoriteShop? = // お気に入りされているShopをidで検索して返す。お気に入りに登録されていなければnullで返す
-                Realm.getDefaultInstance().use { realm ->
+                // ★ Realmsデータベースに関わる不具合対応　田中
+                // Realm.getDefaultInstance().use { realm ->
+                Realm.getInstance(realmConfiguration).use { realm ->
                     realm.where(FavoriteShop::class.java)
                         .equalTo(FavoriteShop::id.name, id)
                         .findFirst()?.let {
@@ -30,12 +48,16 @@ package jp.techacademy.hiroaki.tanaka.apiapp
                 }
 
             fun insert(favoriteShop: FavoriteShop) = // お気に入り追加
-                Realm.getDefaultInstance().executeTransaction {
+                // ★ Realmsデータベースに関わる不具合対応　田中
+                // Realm.getDefaultInstance().executeTransaction {
+                Realm.getInstance(realmConfiguration).executeTransaction {
                     it.insertOrUpdate(favoriteShop)
                 }
 
             fun delete(id: String) = // idでお気に入りから削除する
-                Realm.getDefaultInstance().use { realm ->
+                // ★ Realmsデータベースに関わる不具合対応　田中
+                // Realm.getDefaultInstance().use { realm ->
+                Realm.getInstance(realmConfiguration).use { realm ->
                     realm.where(FavoriteShop::class.java)
                         .equalTo(FavoriteShop::id.name, id)
                         .findFirst()?.also { deleteShop ->
