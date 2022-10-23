@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.annotations.SerializedName
 import com.squareup.picasso.Picasso
+import java.io.Serializable
 
 class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -19,7 +21,7 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
     var onClickDeleteFavorite: ((FavoriteShop) -> Unit)? = null
 
     // Itemを押したときのメソッド
-    var onClickItem: ((String) -> Unit)? = null
+    var onClickItem: ((Shop) -> Unit)? = null
 
     // 更新用のメソッド
     fun refresh(list: List<FavoriteShop>) {
@@ -64,7 +66,21 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
             rootView.apply {
                 setBackgroundColor(ContextCompat.getColor(context, if (position % 2 == 0) android.R.color.white else android.R.color.darker_gray)) // 偶数番目と機数番目で背景色を変更させる
                 setOnClickListener {
-                    onClickItem?.invoke(it.toString())
+
+                    val couponUrls =
+                    val shop = Shop.apply {
+                        couponUrls =
+                        id = : String,
+                        logoImage =
+                        name =
+                    ): Serializable
+
+
+
+                    onClickItem?.invoke(data)
+
+
+
                 }
             }
             nameTextView.text = data.name

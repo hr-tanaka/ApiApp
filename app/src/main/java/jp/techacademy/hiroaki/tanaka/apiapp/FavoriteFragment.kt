@@ -34,7 +34,7 @@ class FavoriteFragment: Fragment() {
             }
             // Itemをクリックしたとき
             onClickItem = {
-                fragmentCallback?.onClickItem(shop)
+                fragmentCallback?.onClickItem(it)
             }
         }
         // RecyclerViewの初期化
