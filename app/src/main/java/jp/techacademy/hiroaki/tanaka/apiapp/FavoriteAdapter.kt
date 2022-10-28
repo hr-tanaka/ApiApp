@@ -8,9 +8,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.annotations.SerializedName
 import com.squareup.picasso.Picasso
-import java.io.Serializable
+import jp.techacademy.hiroaki.tanaka.apiapp.CouponUrls as CouponUrls
 
 class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -67,19 +66,10 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
                 setBackgroundColor(ContextCompat.getColor(context, if (position % 2 == 0) android.R.color.white else android.R.color.darker_gray)) // 偶数番目と機数番目で背景色を変更させる
                 setOnClickListener {
 
-                    val couponUrls =
-                    val shop = Shop.apply {
-                        couponUrls =
-                        id = : String,
-                        logoImage =
-                        name =
-                    ): Serializable
+                    val couponUrls = CouponUrls(data.url, data.url)
+                    val shop = Shop(couponUrls, data.id, data.imageUrl, data.name)
 
-
-
-                    onClickItem?.invoke(data)
-
-
+                    onClickItem?.invoke(shop)
 
                 }
             }

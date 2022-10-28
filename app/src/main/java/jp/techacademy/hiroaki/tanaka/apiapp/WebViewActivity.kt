@@ -1,5 +1,6 @@
 package jp.techacademy.hiroaki.tanaka.apiapp
 
+import java.io.Serializable
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -11,7 +12,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_web_view.*
 import kotlinx.android.synthetic.main.activity_web_view.favoriteImageView
 import kotlinx.android.synthetic.main.recycler_favorite.*
-import java.io.Serializable
+
 
 
 class WebViewActivity: AppCompatActivity(){
@@ -34,6 +35,8 @@ class WebViewActivity: AppCompatActivity(){
         setContentView(R.layout.activity_web_view)
         val shop:Shop = intent.getSerializableExtra(KEY_URL) as Shop
         webView.loadUrl(shop.couponUrls.sp)
+
+        // 登録および解除の更新処理を行う。戻ってきたら、更新されるようにする。Fragmentの状態のタイミング
 
 //        // 課題追加　ここから
 //        onClickDeleteFavorite = { // Adapterの処理をそのままActivityに通知する
