@@ -7,7 +7,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(), FragmentCallback {
 
     private val viewPagerAdapter by lazy { ViewPagerAdapter(this) }
 
@@ -30,11 +30,11 @@ class MainActivity : AppCompatActivity(){
         }.attach()
     }
 
-    fun onClickItem(shop: Shop) {
+    override fun onClickItem(shop: Shop) {
         WebViewActivity.start(this, shop)
     }
 
-    fun onAddFavorite(shop: Shop) { // Favoriteに追加するときのメソッド(Fragment -> Activity へ通知する)
+    override fun onAddFavorite(shop: Shop) { // Favoriteに追加するときのメソッド(Fragment -> Activity へ通知する)
         FavoriteShop.insert(FavoriteShop().apply {
             id = shop.id
             name = shop.name
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(){
         (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_FAVORITE] as FavoriteFragment).updateData()
     }
 
-    fun onDeleteFavorite(id: String) { // Favoriteから削除するときのメソッド(Fragment -> Activity へ通知する)
+    override fun onDeleteFavorite(id: String) { // Favoriteから削除するときのメソッド(Fragment -> Activity へ通知する)
         showConfirmDeleteFavoriteDialog(id)
     }
 

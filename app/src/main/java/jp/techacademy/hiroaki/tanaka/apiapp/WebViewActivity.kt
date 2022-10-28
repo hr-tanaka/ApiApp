@@ -21,6 +21,12 @@ class WebViewActivity: AppCompatActivity(){
     private val viewPagerAdapter by lazy { ViewPagerAdapter(this) }
     // 課題追加　ここまで
 
+    // 一覧画面から登録するときのコールバック（FavoriteFragmentへ通知するメソッド)
+    var onClickAddFavorite: ((Shop) -> Unit)? = null
+    // 一覧画面から削除するときのコールバック（ApiFragmentへ通知するメソッド)
+    var onClickDeleteFavorite: ((Shop) -> Unit)? = null
+    // Itemを押したときのメソッド
+    var onClickItem: ((String) -> Unit)? = null
 
     // 課題追加　ここから
 //    private var fragmentCallback : FragmentCallback? = null // Fragment -> Activity にFavoriteの変更を通知する
@@ -37,6 +43,23 @@ class WebViewActivity: AppCompatActivity(){
         webView.loadUrl(shop.couponUrls.sp)
 
         // 登録および解除の更新処理を行う。戻ってきたら、更新されるようにする。Fragmentの状態のタイミング
+        val isFavorite = FavoriteShop.findBy(shop.id) != null
+
+        // nameTextViewのtextプロパティに代入されたオブジェクトのnameプロパティを代入
+        nameTextView.text = shop.name
+        // Picassoライブラリを使い、imageViewにdata.logoImageのurlの画像を読み込ませる
+        Picasso.get().load(shop.logoImage).into(imageView)
+        // 白抜きの星マークの画像を指定
+        favoriteImageView.apply {
+            setImageResource(if (isFavorite) R.drawable.ic_star else R.drawable.ic_star_border) // Picassoというライブラリを使ってImageVIewに画像をはめ込む
+            setOnClickListener {
+                if (isFavorite) {
+                    onClickDeleteFavorite?.invoke(shop)
+                } else {
+                    onClickAddFavorite?.invoke(shop)
+                }
+            }
+        }
 
 //        // 課題追加　ここから
 //        onClickDeleteFavorite = { // Adapterの処理をそのままActivityに通知する
